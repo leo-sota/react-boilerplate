@@ -1,0 +1,11 @@
+import mock from "../axios/mock";
+
+mock.onGet("/api/v1{{apiUrl}}").reply(() => {
+    const data = localStorage.getItem("{{lowerCase name}}");
+    if (data) {
+        return [200, JSON.parse(data)];
+    } else {
+        localStorage.setItem("{{lowerCase name}}", JSON.stringify([]));
+        return [200, []];
+    }
+});

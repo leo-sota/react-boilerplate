@@ -1,65 +1,62 @@
-import httpClient from "../utils/axios/httpClient";
-import { User, UserQueries } from "../features/users/hooks";
+import httpClient from "utils/axios/httpClient";
 
-const getAllUsers = async <T>(query?: UserQueries): Promise<T[]> => {
-  return httpClient.get("/users", query);
+const getAllUsers = async <T>(query?: any): Promise<T[]> => {
+    return httpClient.get("/users", query); 
 };
 
-const getUserById = async (id?: string): Promise<User> => {
-  if (!id) {
-    throw new Error("Missing user id");
-  }
-  const currentData = localStorage.getItem("users");
-  if (currentData) {
-    const listUsers: User[] = JSON.parse(currentData);
-    const user = listUsers.find((user) => user.id === id);
-    if (!user) {
-      throw new Error("User not found");
+const getUsersById = async (id?: string): Promise<any> => {
+    if (!id) {
+        throw new Error("Missing id");
     }
-    return Promise.resolve(user);
-  }
-  return httpClient.get(`/users/${id}`);
-};
-
-const createUser = async (data: User): Promise<any> => {
-  console.log(data);
-  const currentData = localStorage.getItem("users");
-  if (currentData) {
-    const currentDataJson = JSON.parse(currentData);
-    currentDataJson.push(data);
-    localStorage.setItem("users", JSON.stringify(currentDataJson));
-    return Promise.resolve(data);
-  }
-  console.log(111);
-  return httpClient.post("/users", data);
-};
-
-const updateUser = async (data: User): Promise<any> => {
-  const currentData = localStorage.getItem("users");
-  if (currentData) {
-    const listUsers: User[] = JSON.parse(currentData);
-    const index = listUsers.findIndex((user) => user.id === data.id);
-    if (index !== -1) {
-      listUsers[index] = data;
-      localStorage.setItem("users", JSON.stringify(listUsers));
+    const currentData = localStorage.getItem("users");
+    if (currentData) {
+        const listData: any[] = JSON.parse(currentData);
+        const data = listData.find((item) => item.id === id);
+        if (!data) {
+            throw new Error("Not found");
+        }
+        return Promise.resolve(data);
     }
-  }
-  return httpClient.put(`/users/${data.id}`, data);
+    return httpClient.get(`/users/${id}`);
 };
 
-const deleteUser = async (id: string): Promise<any> => {
-  console.log(id);
-  const currentData = localStorage.getItem("users");
-  if (currentData) {
-    const listUsers: User[] = JSON.parse(currentData);
-    const newListUsers = listUsers.filter((user) => user.id !== id);
-
-    localStorage.setItem("users", JSON.stringify(newListUsers));
-    return Promise.resolve(id);
-  }
-  return httpClient.deletes(`/users/${id}`);
+const createUsers = async (data: any): Promise<any> => {
+    const currentData = localStorage.getItem("users");
+    if (currentData) {
+        const currentDataJson = JSON.parse(currentData);
+        currentDataJson.push(data);
+        localStorage.setItem("users", JSON.stringify(currentDataJson));
+        return Promise.resolve(data);
+    }
+    return httpClient.post("/users", data);
 };
 
-const usersAPI = { getAllUsers, createUser, updateUser, deleteUser, getUserById };
-export { getAllUsers, createUser, updateUser, deleteUser, getUserById };
+const updateUsers = async (data: any): Promise<any> => {
+    const currentData = localStorage.getItem("users");
+    if (currentData) {
+        const listData: any[] = JSON.parse(currentData);
+        const index = listData.findIndex((item) => item.id === data.id);
+        if (index !== -1) {
+            listData[index] = data;
+            localStorage.setItem("users", JSON.stringify(listData));
+        }
+        return Promise.resolve(data);
+    }
+    return httpClient.put(`/users/${data.id}`, data);
+};
+
+const deleteUsers = async (id: string): Promise<any> => {
+    const currentData = localStorage.getItem("users");
+    if (currentData) {
+        const listData: any[] = JSON.parse(currentData);
+        const newlistData = listData.filter((item) => item.id !== id);
+        
+        localStorage.setItem("users", JSON.stringify(newlistData));
+        return Promise.resolve(id);
+    }
+    return httpClient.deletes(`/users/${id}`);
+};
+
+const usersAPI = { getAllUsers, createUsers, updateUsers, deleteUsers, getUsersById };
+export { getAllUsers, createUsers, updateUsers, deleteUsers, getUsersById };
 export default usersAPI;

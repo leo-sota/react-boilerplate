@@ -1,20 +1,13 @@
 import { useMutation, useQuery } from "react-query";
 import usersAPI from "_apis_/users";
 
-export interface UserQueries {
+export interface UsersQueries {
   page: number;
   limit: number;
 }
 
-export interface User {
-  id: string;
-  name: string;
-  age: number;
-  company: string;
-}
-
-export const useFetchUsers = (query?: UserQueries) => {
-  return useQuery<User[]>(
+export const useFetchUsers = (query?: UsersQueries) => {
+  return useQuery<any[]>(
     [
       "users",
       {
@@ -26,15 +19,16 @@ export const useFetchUsers = (query?: UserQueries) => {
   );
 };
 
-export const useFetchUserInfo = (id?: string) => {
-  return useQuery<User>(["user", id], () => usersAPI.getUserById(id), {
+export const useFetchUsersInfo = (id?: string) => {
+  return useQuery<any>(["users", id], () => usersAPI.getUsersById(id), {
     refetchOnWindowFocus: false,
     keepPreviousData: true,
+    enabled: !!id,
   });
 };
 
-export const useUpdateUser = () => {
-  return useMutation((params: { methodName: string; readonly args: (string | User)[] }) => {
+export const useUpdateUsers = () => {
+  return useMutation((params: { methodName: string; readonly args: (string | any)[] }) => {
     const { methodName, args } = params;
     // @ts-ignore
     return usersAPI[methodName](...args);

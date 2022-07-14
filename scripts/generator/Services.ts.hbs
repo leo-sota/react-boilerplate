@@ -12,7 +12,7 @@ const get{{pascalCase name}}ById = async (id?: string): Promise<any> => {
     if (currentData) {
         const listData: any[] = JSON.parse(currentData);
         const data = listData.find((item) => item.id === id);
-        if (!user) {
+        if (!data) {
             throw new Error("Not found");
         }
         return Promise.resolve(data);
@@ -20,7 +20,7 @@ const get{{pascalCase name}}ById = async (id?: string): Promise<any> => {
     return httpClient.get(`{{apiUrl}}/${id}`);
 };
 
-const create{{pascalCase name}} = async (data: User): Promise<any> => {
+const create{{pascalCase name}} = async (data: any): Promise<any> => {
     const currentData = localStorage.getItem("{{lowerCase name}}");
     if (currentData) {
         const currentDataJson = JSON.parse(currentData);
@@ -31,7 +31,7 @@ const create{{pascalCase name}} = async (data: User): Promise<any> => {
     return httpClient.post("{{apiUrl}}", data);
 };
 
-const update{{pascalCase name}} = async (data: User): Promise<any> => {
+const update{{pascalCase name}} = async (data: any): Promise<any> => {
     const currentData = localStorage.getItem("{{lowerCase name}}");
     if (currentData) {
         const listData: any[] = JSON.parse(currentData);
@@ -40,6 +40,7 @@ const update{{pascalCase name}} = async (data: User): Promise<any> => {
             listData[index] = data;
             localStorage.setItem("{{lowerCase name}}", JSON.stringify(listData));
         }
+        return Promise.resolve(data);
     }
     return httpClient.put(`{{apiUrl}}/${data.id}`, data);
 };

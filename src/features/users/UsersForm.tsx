@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useFetch{{pascalCase name}}Info, useUpdate{{pascalCase name}} } from "./hooks";
+import { useFetchUsersInfo, useUpdateUsers } from "./hooks";
 import { generateUniqueId, getRandomString } from "utils/string";
 import { PATH_DASHBOARD } from "routes/path";
 
@@ -10,10 +10,10 @@ const initialValue = {
     company: getRandomString(),
 };
 
-function {{pascalCase name}}Form() {
+function UsersForm() {
 const { id } = useParams();
-const { data } = useFetch{{pascalCase name}}Info(id);
-const mutation = useUpdate{{pascalCase name}}();
+const { data } = useFetchUsersInfo(id);
+const mutation = useUpdateUsers();
 const navigate = useNavigate();
 
 const [formState, setFormState] = React.useState(initialValue);
@@ -33,13 +33,13 @@ React.useEffect(() => {
 
     const create = async () => {
         try {
-        const new{{pascalCase name}} = { ...formState, id: id ?? generateUniqueId() };
+        const newUsers = { ...formState, id: id ?? generateUniqueId() };
         const params = {
-            methodName: id ? "update{{pascalCase name}}" : "create{{pascalCase name}}",
-            args: [new{{pascalCase name}}],
+            methodName: id ? "updateUsers" : "createUsers",
+            args: [newUsers],
         };
         await mutation.mutateAsync(params);
-        navigate(PATH_DASHBOARD.{{camelCase name}});
+        navigate(PATH_DASHBOARD.users);
         } catch (err) {
             if (err instanceof Error) {
                 console.log(err.message);
@@ -86,4 +86,4 @@ React.useEffect(() => {
     );
 }
 
-export default {{pascalCase name}}Form;
+export default UsersForm;

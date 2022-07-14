@@ -1,6 +1,4 @@
-import { NodePlopAPI } from "plop";
-
-module.exports = (plop: NodePlopAPI) => {
+module.exports = (plop) => {
   plop.setGenerator("component", {
     description: "Generate new page",
     prompts: [
@@ -43,13 +41,18 @@ module.exports = (plop: NodePlopAPI) => {
       },
       {
         type: "add",
-        path: "../../src/features/{{lowerCase route}}/{{pascalCase}}Form.tsx",
+        path: "../../src/features/{{lowerCase route}}/{{pascalCase name}}Form.tsx",
         templateFile: "./form.ts.hbs",
       },
       {
         type: "add",
         path: "../../src/_apis_/{{lowerCase route}}.ts",
         templateFile: "./Services.ts.hbs",
+      },
+      {
+        type: "add",
+        path: "../../src/utils/mockData/{{lowerCase route}}.ts",
+        templateFile: "./mocks.ts.hbs",
       },
       {
         type: "append",
@@ -106,9 +109,16 @@ module.exports = (plop: NodePlopAPI) => {
 
       {
         type: "append",
-        path: "../../src/apis/index.ts",
+        path: "../../src/_apis_/index.ts",
         pattern: `/* APIS_GENERATOR_IMPORT */`,
         template: `export * from "./{{lowerCase route}}";`,
+      },
+
+      {
+        type: "append",
+        path: "../../src/utils/mockData/index.ts",
+        pattern: `/* IMPORT_MOCK_GENERATOR */`,
+        template: `import "./{{lowerCase route}}";`,
       },
     ],
   });

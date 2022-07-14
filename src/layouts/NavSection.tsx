@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { NavLink as RouterLink, useLocation } from "react-router-dom";
 
 import { SidebarConfig, SidebarItem } from "./sidebarConfig";
@@ -12,15 +11,8 @@ interface NavSectionProps {
 
 function NavItem({ item, isShow }: { item: SidebarItem; isShow: boolean }) {
   const { pathname } = useLocation();
-  const { title, path, icon, info, children } = item;
+  const { title, path, icon, info } = item;
   const isActiveRoot = path ? pathname.indexOf(path) !== -1 : false;
-  const [open, setOpen] = useState(isActiveRoot);
-
-  const handleOpen = () => {
-    setOpen(!open);
-  };
-
-  console.log(isActiveRoot);
 
   return (
     <RouterLink to={path}>

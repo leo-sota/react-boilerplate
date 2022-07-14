@@ -23,11 +23,12 @@ export const useFetch{{pascalCase name}}Info = (id?: string) => {
     return useQuery<any>(["{{route}}", id], () => {{lowerCase name}}API.get{{pascalCase name}}ById(id), {
         refetchOnWindowFocus: false,
         keepPreviousData: true,
+        enabled: !!id,
     });
 };
 
 export const useUpdate{{pascalCase name}} = () => {
-    return useMutation((params: { methodName: string; readonly args: (string | User)[] }) => {
+    return useMutation((params: { methodName: string; readonly args: (string | any)[] }) => {
     const { methodName, args } = params;
     // @ts-ignore
     return {{lowerCase name}}API[methodName](...args);

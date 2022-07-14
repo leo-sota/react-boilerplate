@@ -24,11 +24,7 @@ export default function Routes() {
           element: <Navigate to="home" />,
         },
         /* PAGE_ROUTER */
-        {
-          path: "home",
-          element: <HomePage />,
-        },
-        {
+{
           path: "users",
           children: [
             {
@@ -45,14 +41,19 @@ export default function Routes() {
             },
           ],
         },
+
+        {
+          path: "home",
+          element: <HomePage />,
+        },
       ],
     },
   ]);
 }
 
 /* COMPONENT_GENERATOR_PAGE_IMPORT */
-const HomePage = Loadable(lazy(() => import("pages/dashboard/HomePage")));
 const UsersPage = Loadable(lazy(() => import("pages/dashboard/Users")));
+const HomePage = Loadable(lazy(() => import("pages/dashboard/HomePage")));
 
 /* COMPONENT_GENERATOR_FEATURES_IMPORT */
-const UsersForm = Loadable(lazy(() => import("features/users/UserForm")));
+const UsersForm = Loadable(lazy(() => import("features/users/UsersForm")));
