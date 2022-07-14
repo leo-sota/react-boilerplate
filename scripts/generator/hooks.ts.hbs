@@ -1,0 +1,35 @@
+import { useMutation, useQuery } from "react-query";
+import {{lowerCase name}}API from "_apis_/{{lowerCase route}}";
+
+export interface {{pascalCase name}}Queries {
+    page: number;
+    limit: number;
+}
+
+export const useFetch{{pascalCase name}} = (query?: {{pascalCase name}}Queries) => {
+    return useQuery<any[]>(
+            [
+                "{{route}}",
+                {
+                ...query,
+                },
+            ],
+            () => {{lowerCase name}}API.getAll{{pascalCase name}}(query),
+            { refetchOnWindowFocus: false, keepPreviousData: true },
+    );
+};
+
+export const useFetch{{pascalCase name}}Info = (id?: string) => {
+    return useQuery<any>(["{{route}}", id], () => {{lowerCase name}}API.get{{pascalCase name}}ById(id), {
+        refetchOnWindowFocus: false,
+        keepPreviousData: true,
+    });
+};
+
+export const useUpdate{{pascalCase name}} = () => {
+    return useMutation((params: { methodName: string; readonly args: (string | User)[] }) => {
+    const { methodName, args } = params;
+    // @ts-ignore
+    return {{lowerCase name}}API[methodName](...args);
+    });
+};

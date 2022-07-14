@@ -1,41 +1,24 @@
 import React from "react";
-import { useCRUDUser, useFetchUsers } from "./hooks";
-import { getRandomUser } from "./users";
+import { useUpdateUser, useFetchUsers } from "./hooks";
+import { Link } from "react-router-dom";
 
 function UsersView() {
   const { data, refetch } = useFetchUsers();
-  const mutation = useCRUDUser();
-
-  console.log(data);
-
-  const createUser = async () => {
-    try {
-      const newUser = getRandomUser();
-      const params = {
-        methodName: "createUser",
-        args: [newUser],
-      };
-      await mutation.mutateAsync(params);
-      await refetch();
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err.message);
-      }
-    }
-  };
+  const mutation = useUpdateUser();
 
   const deleteUser = (id: string) => async () => {
-    try {
-      const params = {
-        methodName: "deleteUser",
-        args: [id],
-      };
-      await mutation.mutateAsync(params);
-      await refetch();
-    } catch (err) {
-      console.log(err);
-      if (err instanceof Error) {
-        console.log(err.message);
+    if (window.confirm("Are you sure?")) {
+      try {
+        const params = {
+          methodName: "deleteUser",
+          args: [id],
+        };
+        await mutation.mutateAsync(params);
+        await refetch();
+      } catch (err) {
+        if (err instanceof Error) {
+          console.log(err.message);
+        }
       }
     }
   };
@@ -50,22 +33,28 @@ function UsersView() {
             <p>Name: {user.name}</p>
             <p>Age: {user.age}</p>
             <p>Company: {user.company}</p>
-            <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded"
-              onClick={deleteUser(user.id)}
-            >
-              Delete
-            </button>
+            <div className="flex gap-2">
+              <Link to={`${user.id}/edit`}>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded">
+                  Update user
+                </button>
+              </Link>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-4 rounded"
+                onClick={deleteUser(user.id)}
+              >
+                Delete
+              </button>
+            </div>
             <hr className="my-2" />
           </div>
         ))}
       </div>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={createUser}
-      >
-        Add user
-      </button>
+      <Link to="create">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Add user
+        </button>
+      </Link>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "react-query";
-import { usersAPI } from "../../_apis_";
+import usersAPI from "_apis_/users";
 
 export interface UserQueries {
   page: number;
@@ -26,7 +26,14 @@ export const useFetchUsers = (query?: UserQueries) => {
   );
 };
 
-export const useCRUDUser = () => {
+export const useFetchUserInfo = (id?: string) => {
+  return useQuery<User>(["user", id], () => usersAPI.getUserById(id), {
+    refetchOnWindowFocus: false,
+    keepPreviousData: true,
+  });
+};
+
+export const useUpdateUser = () => {
   return useMutation((params: { methodName: string; readonly args: (string | User)[] }) => {
     const { methodName, args } = params;
     // @ts-ignore

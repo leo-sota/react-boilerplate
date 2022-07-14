@@ -1,0 +1,61 @@
+import httpClient from "utils/axios/httpClient";
+
+const getAll{{pascalCase name}} = async <T>(query?: any): Promise<T[]> => {
+    return httpClient.get("{{apiUrl}}", query); 
+};
+
+const get{{pascalCase name}}ById = async (id?: string): Promise<any> => {
+    if (!id) {
+        throw new Error("Missing id");
+    }
+    const currentData = localStorage.getItem("{{lowerCase name}}");
+    if (currentData) {
+        const listData: any[] = JSON.parse(currentData);
+        const data = listData.find((item) => item.id === id);
+        if (!user) {
+            throw new Error("Not found");
+        }
+        return Promise.resolve(data);
+    }
+    return httpClient.get(`{{apiUrl}}/${id}`);
+};
+
+const create{{pascalCase name}} = async (data: User): Promise<any> => {
+    const currentData = localStorage.getItem("{{lowerCase name}}");
+    if (currentData) {
+        const currentDataJson = JSON.parse(currentData);
+        currentDataJson.push(data);
+        localStorage.setItem("{{lowerCase name}}", JSON.stringify(currentDataJson));
+        return Promise.resolve(data);
+    }
+    return httpClient.post("{{apiUrl}}", data);
+};
+
+const update{{pascalCase name}} = async (data: User): Promise<any> => {
+    const currentData = localStorage.getItem("{{lowerCase name}}");
+    if (currentData) {
+        const listData: any[] = JSON.parse(currentData);
+        const index = listData.findIndex((item) => item.id === data.id);
+        if (index !== -1) {
+            listData[index] = data;
+            localStorage.setItem("{{lowerCase name}}", JSON.stringify(listData));
+        }
+    }
+    return httpClient.put(`{{apiUrl}}/${data.id}`, data);
+};
+
+const delete{{pascalCase name}} = async (id: string): Promise<any> => {
+    const currentData = localStorage.getItem("{{lowerCase name}}");
+    if (currentData) {
+        const listData: any[] = JSON.parse(currentData);
+        const newlistData = listData.filter((item) => item.id !== id);
+        
+        localStorage.setItem("{{lowerCase name}}", JSON.stringify(newlistData));
+        return Promise.resolve(id);
+    }
+    return httpClient.deletes(`{{apiUrl}}/${id}`);
+};
+
+const {{lowerCase name}}API = { getAll{{pascalCase name}}, create{{pascalCase name}}, update{{pascalCase name}}, delete{{pascalCase name}}, get{{pascalCase name}}ById };
+export { getAll{{pascalCase name}}, create{{pascalCase name}}, update{{pascalCase name}}, delete{{pascalCase name}}, get{{pascalCase name}}ById };
+export default {{lowerCase name}}API;

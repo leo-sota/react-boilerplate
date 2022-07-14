@@ -17,6 +17,7 @@ const sidebarConfig: SidebarConfig[] = [
   {
     subheader: " ",
     items: [
+      /* SIDEBAR_ELEMENT_GENERATOR */
       {
         title: "Home",
         path: PATH_DASHBOARD.home,

@@ -23,18 +23,36 @@ export default function Routes() {
           path: "",
           element: <Navigate to="home" />,
         },
+        /* PAGE_ROUTER */
         {
           path: "home",
           element: <HomePage />,
         },
         {
           path: "users",
-          element: <UsersPage />,
+          children: [
+            {
+              path: "create",
+              element: <UsersForm />,
+            },
+            {
+              path: ":id/edit",
+              element: <UsersForm />,
+            },
+            {
+              index: true,
+              element: <UsersPage />,
+            },
+          ],
         },
       ],
     },
   ]);
 }
 
-const HomePage = Loadable(lazy(() => import("pages/HomePage")));
-const UsersPage = Loadable(lazy(() => import("pages/Users")));
+/* COMPONENT_GENERATOR_PAGE_IMPORT */
+const HomePage = Loadable(lazy(() => import("pages/dashboard/HomePage")));
+const UsersPage = Loadable(lazy(() => import("pages/dashboard/Users")));
+
+/* COMPONENT_GENERATOR_FEATURES_IMPORT */
+const UsersForm = Loadable(lazy(() => import("features/users/UserForm")));

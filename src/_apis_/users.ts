@@ -5,6 +5,22 @@ const getAllUsers = async <T>(query?: UserQueries): Promise<T[]> => {
   return httpClient.get("/users", query);
 };
 
+const getUserById = async (id?: string): Promise<User> => {
+  if (!id) {
+    throw new Error("Missing user id");
+  }
+  const currentData = localStorage.getItem("users");
+  if (currentData) {
+    const listUsers: User[] = JSON.parse(currentData);
+    const user = listUsers.find((user) => user.id === id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return Promise.resolve(user);
+  }
+  return httpClient.get(`/users/${id}`);
+};
+
 const createUser = async (data: User): Promise<any> => {
   console.log(data);
   const currentData = localStorage.getItem("users");
@@ -44,5 +60,6 @@ const deleteUser = async (id: string): Promise<any> => {
   return httpClient.deletes(`/users/${id}`);
 };
 
-const usersAPI = { getAllUsers, createUser, updateUser, deleteUser };
-export { getAllUsers, createUser, updateUser, deleteUser, usersAPI };
+const usersAPI = { getAllUsers, createUser, updateUser, deleteUser, getUserById };
+export { getAllUsers, createUser, updateUser, deleteUser, getUserById };
+export default usersAPI;
