@@ -18,11 +18,11 @@ const sidebarConfig: SidebarConfig[] = [
     subheader: " ",
     items: [
       /* SIDEBAR_ELEMENT_GENERATOR */
-{
-            title: "Users",
-            path: PATH_DASHBOARD.users,
-            icon: <></>,
-          },
+      {
+        title: "Users",
+        path: PATH_DASHBOARD.users,
+        icon: <></>,
+      },
       {
         title: "Home",
         path: PATH_DASHBOARD.home,

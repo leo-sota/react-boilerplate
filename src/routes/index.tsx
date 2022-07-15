@@ -24,7 +24,7 @@ export default function Routes() {
           element: <Navigate to="home" />,
         },
         /* PAGE_ROUTER */
-{
+        {
           path: "users",
           children: [
             {
